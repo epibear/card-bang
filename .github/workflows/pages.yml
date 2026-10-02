@@ -1,0 +1,48 @@
+name: Publish Card Bang
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Reassemble verified WebGL build
+        run: |
+          python3 - <<'PY'
+          import hashlib, io, json, pathlib, zipfile
+          manifest = json.loads(pathlib.Path('release.json').read_text())
+          assert manifest['format'] == 1
+          data = bytearray()
+          for part in manifest['parts']:
+              name = pathlib.PurePosixPath(part['name'])
+              assert len(name.parts) == 1 and name.name.startswith('game.zip.')
+              block = pathlib.Path(name.name).read_bytes()
+              assert len(block) == part['bytes']
+              assert hashlib.sha256(block).hexdigest() == part['sha256']
+              data.extend(block)
+          assert hashlib.sha256(data).hexdigest() == manifest['sha256']
+          site = pathlib.Path('_site').resolve()
+          with zipfile.ZipFile(io.BytesIO(data)) as archive:
+              for entry in archive.infolist():
+                  assert (site / entry.filename).resolve().is_relative_to(site)
+              archive.extractall(site)
+          assert (site / 'index.html').is_file()
+          PY
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
