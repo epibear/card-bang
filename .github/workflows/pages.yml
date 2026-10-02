@@ -40,6 +40,13 @@ jobs:
                   assert (site / entry.filename).resolve().is_relative_to(site)
               archive.extractall(site)
           assert (site / 'index.html').is_file()
+          # Compatibility patch for archives published before explicit invite entry.
+          lobby = site / 'lobby.js'
+          text = lobby.read_text(encoding='utf-8')
+          old = "if (incoming) { show(true); action(() => net.join(incoming, playerName())); }"
+          new = "if (incoming) { show(true); el('network-status').textContent = '이름을 확인한 뒤 입장을 눌러 주세요.'; el('player-name').select(); }"
+          if old in text:
+              lobby.write_text(text.replace(old, new), encoding='utf-8')
           PY
       - uses: actions/upload-pages-artifact@v4
         with:
