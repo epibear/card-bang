@@ -1,27 +1,27 @@
 {
   "format": 1,
-  "sha256": "948ad41e77d594cb31a52d6c6b3fa701c594f38364cba094aaaa91d8468bedd6",
-  "files": 12,
+  "sha256": "96ac695d0ae585186d984d8b88606ef64c638d065f7cdab096d806c1182b674f",
+  "files": 24,
   "parts": [
     {
       "name": "game.zip.000",
       "bytes": 20971520,
-      "sha256": "7c4397b77a721143058e1532e4d16d4507f0fd9fad3e5336b5f5cda8aad2e992"
+      "sha256": "2478eee204d45bfe23fd7067d28da29414ccd6ebad0f8ccba13ca75f13e2fdbf"
     },
     {
       "name": "game.zip.001",
       "bytes": 20971520,
-      "sha256": "744ac3a0f457db1e1acc804a5888d359c61e9938fefb0e8fc736ab7564ba1f04"
+      "sha256": "3657a27d47c25924b7a9602e0c589f27fb1cd0daec144057c170964ebf99b3af"
     },
     {
       "name": "game.zip.002",
       "bytes": 20971520,
-      "sha256": "83ea620d164a5567d1cf705ba6fb3135209d5a9f0c460f49ceb7f30635668ebb"
+      "sha256": "1183bf43615cb69ea3cfa8519ef12823fd74bbea165e4f6446118988f1649406"
     },
     {
       "name": "game.zip.003",
-      "bytes": 10973881,
-      "sha256": "cae3133930ead106752eb89077368c101112853490bb9b033d8c331bd219b854"
+      "bytes": 14026422,
+      "sha256": "5dbc608e2847d177c66a5afad423741819f968fe59c9b904a51ae8de7b39102b"
     }
   ]
 }
